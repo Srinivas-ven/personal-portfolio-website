@@ -1,16 +1,19 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
-import mysql.connector
 
 app = Flask(__name__)
 CORS(app)
 
-db = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="08680868",
-    database="portfolio"
-)
+projects = [
+    {
+        "title": "Expense Tracker",
+        "description": "Track daily expenses and savings"
+    },
+    {
+        "title": "AI Resume Builder using OpenAI API",
+        "description": "Automatically creates ATS-friendly resumes"
+    }
+]
 
 @app.route('/')
 def home():
@@ -18,13 +21,6 @@ def home():
 
 @app.route('/projects')
 def get_projects():
-
-    cursor = db.cursor(dictionary=True)
-
-    cursor.execute("SELECT * FROM projects")
-
-    projects = cursor.fetchall()
-
     return jsonify(projects)
 
 if __name__ == '__main__':
